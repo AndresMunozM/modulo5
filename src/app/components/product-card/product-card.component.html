@@ -1,0 +1,15 @@
+<div class="card">
+  <img [src]="product.images[0]" alt="{{ product.title }}" class="product-image" />
+
+  <div class="card-content">
+    <h3>{{ product.title }}</h3>
+    <p class="description">{{ product.description }}</p>
+    <p><strong>Categoría:</strong> {{ product.category }}</p>
+    <p class="price"><strong>${{ product.price.toFixed(2) }}</strong></p>
+  </div>
+
+  <div class="card-actions">
+    <button (click)="onAddToCart()">Agregar al carrito</button>
+    <a [routerLink]="['/producto', product.id]">Ver detalles</a>
+  </div>
+</div>

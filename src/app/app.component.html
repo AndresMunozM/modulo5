@@ -1,0 +1,62 @@
+<div class="container">
+  <form (submit)="buscar()" class="search-form">
+    <input
+      type="text"
+      [(ngModel)]="terminoBusqueda"
+      name="busqueda"
+      placeholder="Buscar producto"
+      required
+      pattern="^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ0-9\s]+$"
+    />
+
+    <div class="button-group">
+      <button type="submit">Buscar</button>
+      <button type="button" (click)="resetBusqueda()">Limpiar</button>
+    </div>
+  </form>
+  <div *ngIf="loading">
+    <p>Cargando productos...</p>
+  </div>
+
+  <div *ngIf="error">
+    <p style="color: red;">Error: {{ error }}</p>
+  </div>
+
+  <div class="products" *ngIf="!loading && !error">
+    <h1>Catálogo de Productos</h1>
+    <div *ngIf="productosFiltrados.length > 0; else sinResultados">
+      <div *ngFor="let producto of productosFiltrados">
+        <app-product-card 
+          [product]="producto" 
+          (addToCart)="agregarAlCarrito($event)">
+        </app-product-card>
+      </div>
+    </div>
+    <ng-template #sinResultados>
+      <p>No se encontraron productos.</p>
+    </ng-template>
+  </div>
+
+  <div class="cart">
+    <h2>Carrito ({{ count }})</h2>
+    <ul *ngIf="carrito.length > 0; else vacio">
+      <li *ngFor="let item of carrito">
+        {{ item.title }} - ${{ item.price }}
+      </li>
+    </ul>
+    <ng-template #vacio>
+      <p>No hay productos en el carrito.</p>
+    </ng-template>
+
+    <hr />
+    <p><strong>Total:</strong> ${{ total | number:'1.2-2' }}</p>
+    <button (click)="comprar()" [disabled]="carrito.length === 0">Comprar</button>
+  </div>
+</div>
+<footer>
+  <div class="pagination" *ngIf="!loading && !error">
+    <button (click)="cambiarPagina(-1)" [disabled]="currentPage === 1">Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="cambiarPagina(1)" [disabled]="currentPage >= totalProducts / itemsPerPage">Siguiente</button>
+  </div>
+</footer>

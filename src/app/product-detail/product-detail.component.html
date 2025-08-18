@@ -1,0 +1,9 @@
+<div class="product-detail" *ngIf="product">
+    <img [src]="product.images[0]" alt="{{ product.title }}" class="product-images" />
+  <h2>{{ product.title }}</h2>
+  <p><strong>Precio:</strong> ${{ product.price }}</p>
+  <p><strong>Descripción:</strong> {{ product.description }}</p>
+  <p><strong>Categoría:</strong> {{ product.category }}</p>
+
+  <a routerLink="/">← Volver</a>
+</div>
